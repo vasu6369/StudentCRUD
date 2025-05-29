@@ -1,4 +1,7 @@
 package com.student.enumeration;
 
-public class ResponseStatus {
+public enum ResponseStatus {
+    SUCCESS,
+    FAILED,
+    UNAUTHORIZED
 }
