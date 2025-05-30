@@ -77,4 +77,22 @@ public class StudentController {
             return ResponseEntity.status(500).body(response);
         }
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<CommonResponse> deleteStudentById(@PathVariable String id){
+        try{
+            studentservice.deleteStudentById(id);
+            CommonResponse response = new CommonResponse();
+            response.setStatus(ResponseStatus.SUCCESS);
+            response.setSuccessMessage("Student Deleted.");
+            response.setCode(200);
+            return ResponseEntity.ok(response);
+        }catch (Exception e){
+            CommonResponse response = new CommonResponse();
+            response.setStatus(ResponseStatus.FAILED);
+            response.setErrorMessage("Delete failed: " + e.getMessage());
+            response.setCode(500);
+            return ResponseEntity.status(500).body(response);
+        }
+    }
 }
