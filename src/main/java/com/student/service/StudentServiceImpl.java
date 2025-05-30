@@ -9,27 +9,34 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class StudentServiceImpl implements StudentService{
+public  class StudentServiceImpl implements StudentService{
 
     @Autowired
-    private StudentRepository studentrespository;
+    private StudentRepository studentrepository;
 
 
     @Override
     public Student createStudent(Student student){
-        return studentrespository.save(student);
+        return studentrepository.save(student);
     }
 
     @Override
     public List<Student> getAllStudents(){
-        return studentrespository.findAll();
+        return studentrepository.findAll();
     }
 
     @Override
     public Optional<Student> getStudentById(String id){
-        return studentrespository.findById(id);
+        return studentrepository.findById(id);
     }
 
-
+    @Override
+    public Student updateStudent(String id, Student studentDetails) {
+        Student student=studentrepository.findById(id).orElseThrow();
+        student.setName(studentDetails.getName());
+        student.setEmail(studentDetails.getEmail());
+        student.setAge(studentDetails.getAge());
+        return studentrepository.save(student);
+    }
 
 }

@@ -16,11 +16,11 @@ import java.util.Optional;
 public class StudentController {
 
     @Autowired
-    private StudentService studentService;
+    private StudentService studentservice;
 
     @PostMapping
     public ResponseEntity<CommonResponse> createStudent(@RequestBody Student student){
-        Student created=studentService.createStudent(student);
+        Student created=studentservice.createStudent(student);
         CommonResponse response=new CommonResponse();
         response.setStatus(ResponseStatus.SUCCESS);
         response.setSuccessMessage("Student Created Successfully");
@@ -31,7 +31,7 @@ public class StudentController {
 
     @GetMapping
     public ResponseEntity<CommonResponse> getAllStudents(){
-        List<Student> students=studentService.getAllStudents();
+        List<Student> students=studentservice.getAllStudents();
         CommonResponse response=new CommonResponse();
         response.setStatus(ResponseStatus.SUCCESS);
         response.setSuccessMessage("Fetched All Students");
@@ -42,7 +42,7 @@ public class StudentController {
 
     @GetMapping("/{id}")
     public ResponseEntity<CommonResponse> getStudentById(@PathVariable String id){
-        Optional<Student> student=studentService.getStudentById(id);
+        Optional<Student> student=studentservice.getStudentById(id);
         CommonResponse response=new CommonResponse();
         if(student.isPresent()){
             response.setStatus(ResponseStatus.SUCCESS);
@@ -59,6 +59,22 @@ public class StudentController {
         }
     }
 
-
-
+    @PutMapping("/{id}")
+    public ResponseEntity<CommonResponse> updateStudent(@PathVariable String id,@RequestBody Student student) {
+        try {
+            Student updated = studentservice.updateStudent(id, student);
+            CommonResponse response = new CommonResponse();
+            response.setStatus(ResponseStatus.SUCCESS);
+            response.setData(updated);
+            response.setSuccessMessage("Student updated.");
+            response.setCode(200);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            CommonResponse response = new CommonResponse();
+            response.setStatus(ResponseStatus.FAILED);
+            response.setErrorMessage("Update failed: " + e.getMessage());
+            response.setCode(500);
+            return ResponseEntity.status(500).body(response);
+        }
+    }
 }
