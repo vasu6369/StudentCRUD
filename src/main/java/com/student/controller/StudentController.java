@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/student")
@@ -38,5 +39,26 @@ public class StudentController {
         response.setCode(200);
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CommonResponse> getStudentById(@PathVariable String id){
+        Optional<Student> student=studentService.getStudentById(id);
+        CommonResponse response=new CommonResponse();
+        if(student.isPresent()){
+            response.setStatus(ResponseStatus.SUCCESS);
+            response.setSuccessMessage("Student Fetched");
+            response.setData(student);
+            response.setCode(200);
+            return ResponseEntity.ok(response);
+        }
+        else{
+            response.setStatus(ResponseStatus.FAILED);
+            response.setErrorMessage("Student Not Found");
+            response.setCode(404);
+            return ResponseEntity.status(404).body(response);
+        }
+    }
+
+
 
 }
