@@ -9,5 +9,5 @@ public interface StudentService {
     public Student createStudent(Student student);
     public List<Student> getAllStudents();
     public Optional<Student> getStudentById(String id);
-
+    public Student updateStudent(String id,Student studentDetails);
 }
